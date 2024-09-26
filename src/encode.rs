@@ -5,8 +5,8 @@ use std::{
 
 use crate::statement::*;
 
-let variables = HashMap::<String, VariableDeclaration>::new();
-let used_reg = Vec::<String>::new();
+static variables = HashMap::<String, VariableDeclaration>::new();
+static used_reg = Vec::<String>::new();
 
 const registers64 = vec![
     "rax", "rbx", "rcx", "rdx", "rsi", "rdi", /* rsp and rbp won't be used */
