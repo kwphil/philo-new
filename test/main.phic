@@ -1,0 +1,12 @@
+fn main() returns void {
+    let x: %rax = 5;
+    let y: %rbx = 10;
+    if x < 10 using %rcx {
+        x += 2;
+    }
+}
+
+fn a() returns u64 {
+    let x: %rcx = 1;
+    return x;
+}

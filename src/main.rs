@@ -1,3 +1,6 @@
+use std::error::Error;
+use std::fs::read_to_string;
+
 mod token;
 mod lexer;
 mod statement;
@@ -18,22 +21,15 @@ pub enum AstNode {
     ForStatement(ForStatement),
 }
 
-fn main() {
-        // Sample input for the Philo language
-        let input = r#"
-        fn main() returns void {
-            let x: %rax = 5;
-            let y: %rbx = 10;
-            if x < 10 using %rcx {
-                x += 2;
-            }
-        }
-        
-        fn a() returns u64 {
-            let x: %rcx = 1;
-            return x;
-        }
-    "#;
+fn main() -> Result<(), Box<dyn Error>> {
+    let args: Vec<String> = env::args().collect();
+    let input;
+    
+    if args.len() <= 1 {
+        return Err("No file was attached!");
+    }
+
+    input = read_to_string(args[1]);
     
     // Step 1: Tokenize the input
     let mut lexer = Lexer::new(input);
@@ -85,6 +81,8 @@ fn main() {
     let mut compiler = Compiler::new();
     compiler.compile(ast);
     println!("{}", compiler.output());
+
+    Ok(())
 }
 
 #[cfg(test)]
