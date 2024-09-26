@@ -26,10 +26,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     let input;
     
     if args.len() <= 1 {
-        return Err("No file was attached!");
+        return Err("No file was attached!".into());
     }
 
-    input = read_to_string(args[1]);
+    input = read_to_string(args[1]).expect("Could not read input!");
     
     // Step 1: Tokenize the input
     let mut lexer = Lexer::new(input);
