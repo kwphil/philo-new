@@ -13,7 +13,6 @@ impl<'a> Lexer<'a> {
             position: 0,
             current_char: input.chars().next(),
         };
-        
         lexer
     }
 
@@ -41,39 +40,32 @@ impl<'a> Lexer<'a> {
                 break;
             }
         }
-
         self.input[start..self.position].to_string()
     }
 
     fn number(&mut self) -> i64 {
         let start = self.position;
-
         while let Some(ch) = self.current_char {
             if ch.is_digit(10) {
                 self.advance();
             } else {
                 break;
             }
-
-            self.input[start..self.position].parse().unwrap()
         }
+        self.input[start..self.position].parse().unwrap()
     }
 
     fn string_literal(&mut self) -> String {
-        self.advance();
+        self.advance(); // Skip the opening quote
         let start = self.position;
-
         while let Some(ch) = self.current_char {
             if ch == '"' {
                 break;
             }
-
             self.advance();
         }
-
         let literal = self.input[start..self.position].to_string();
-        self.advance();
-        
+        self.advance(); // Skip the closing quote
         literal
     }
 
@@ -84,62 +76,47 @@ impl<'a> Lexer<'a> {
                     self.skip_whitespace();
                     return Token::Whitespace;
                 }
-
                 'a'..='z' | 'A'..='Z' | '_' => {
                     let ident = self.identifier();
                     return match ident.as_str() {
                         "fn" | "let" | "if" | "else" | "while" | "for" | "struct" | "impl" | "enum" | "pub" => {
                             Token::Keyword(ident)
                         },
-
                         _ => Token::Identifier(ident),
                     };
                 }
-
                 '0'..='9' => {
                     return Token::Number(self.number());
                 }
-
                 '"' => {
                     return Token::StringLiteral(self.string_literal());
                 }
-
                 ';' | '{' | '}' | '(' | ')' | ',' => {
                     let symbol = ch;
                     self.advance();
-                    
                     return Token::Symbol(symbol);
                 }
-
                 '/' => {
                     self.advance();
-
-                    // for division
-                    if self.current_char != Some('/') {
+                    if self.current_char == Some('/') {
+                        while self.current_char != Some('\n') {
+                            self.advance();
+                        }
+                        return Token::Comment;
+                    } else {
                         return Token::Operator('/'.to_string());
                     }
-                    
-                    // for comment
-                    while self.current_char != Some('\n') {
-                        self.advance();
-                    }
-
-                    return Token::Comment;
                 }
-
                 '+' | '-' | '*' | '=' | '<' | '>' => {
                     let op = ch.to_string();
                     self.advance();
-
                     return Token::Operator(op);
                 }
-
                 _ => {
-                    self.advance();
+                    self.advance(); // Skip unknown characters
                 }
             }
         }
-
         Token::Eof
     }
 }
