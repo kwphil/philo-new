@@ -6,7 +6,6 @@ mod compiler;
 use crate::lexer::Lexer;
 use crate::token::Token;
 use crate::statement::*;
-use crate::statement::Statement::*;
 use crate::compiler::Compiler;
 
 #[derive(Debug)]
