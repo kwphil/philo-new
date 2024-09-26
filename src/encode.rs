@@ -85,7 +85,7 @@ pub fn expression(expr: &Box<Expression>) -> String {
                 return v;
             }
         },
-        _ => unimplemented!("Unexpected expression"),
+        _ => unimplemented!("Unexpected expression: {:?}", expr),
     }
 
     panic!("You shouldn't be here!");
