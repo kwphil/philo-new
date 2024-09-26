@@ -78,11 +78,11 @@ impl Compiler {
 
             Expression::BinaryOperation { ref left, ref operator, ref right } => {
                 // Compile the left expression
-                expression(left);
+                expression(left, self.output);
                 self.output.push_str("    push %rax\n");
                 
                 // Compile the right expression
-                expression(right);
+                expression(right, self.output);
                 self.output.push_str("    pop %rbx\n");
 
                 // Generate code based on the operator
@@ -110,7 +110,7 @@ impl Compiler {
         self.output.push_str("    ; If statement\n");
 
         // Assume condition generates a label for branching
-        expression(&if_stmt.condition);
+        expression(&if_stmt.condition, self.output);
         self.output.push_str("    jmp .if_end\n");
 
         for stmt in if_stmt.then_branch {
@@ -130,7 +130,7 @@ impl Compiler {
 
     fn compile_while_statement(&mut self, while_stmt: WhileStatement) {
         self.output.push_str(".while_start:\n");
-        expression(&while_stmt.condition);
+        expression(&while_stmt.condition, self.output);
         self.output.push_str("    jmp .while_end\n");
 
         for stmt in while_stmt.body {
@@ -142,7 +142,7 @@ impl Compiler {
 
     fn compile_for_statement(&mut self, for_stmt: ForStatement) {
         self.output.push_str(&format!(".for_{}_start:\n", for_stmt.iterator));
-        expression(&for_stmt.range);
+        expression(&for_stmt.range, self.output);
 
         for stmt in for_stmt.body {
             self.compile_statement(stmt);

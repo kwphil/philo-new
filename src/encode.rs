@@ -68,7 +68,7 @@ fn unused_register(bits: u16) -> String {
     panic!("you shouldn't be here");
 }
 
-pub fn expression(expr: &Box<Expression>) -> String {
+pub fn expression(expr: &Box<Expression>, output: &mut String) -> String {
     match **expr {
         Expression::Number(n) => return format!("${}", n),
         Expression::Identifier(ref s) => {
@@ -85,6 +85,12 @@ pub fn expression(expr: &Box<Expression>) -> String {
                 return v;
             }
         },
+
+        Expression::BinaryOperation(a, b, c) => {
+            output.push_str(a, b, c);
+
+            return "";
+        }
         _ => unimplemented!("Unexpected expression: {:?}", expr),
     }
 
