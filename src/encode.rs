@@ -1,7 +1,7 @@
 use std::{
     collections::HashMap,
     error::Error,
-    std::sync::LazyLock,
+    sync::LazyLock,
 };
 
 use crate::statement::*;
