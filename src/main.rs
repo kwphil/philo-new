@@ -1,5 +1,6 @@
 use std::error::Error;
 use std::fs::read_to_string;
+use std::env;
 
 mod token;
 mod lexer;
@@ -32,7 +33,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     input = read_to_string(args[1]).expect("Could not read input!");
     
     // Step 1: Tokenize the input
-    let mut lexer = Lexer::new(input);
+    let mut lexer = Lexer::new(&input);
     let mut tokens = Vec::new();
     loop {
         let token = lexer.next_token();
