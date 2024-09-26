@@ -52,34 +52,34 @@ impl Compiler {
     }
 
     fn compile_variable_declaration(&mut self, var_decl: VariableDeclaration) {
-        let returnStr;
+        let return_str;
 
         if var_decl.var_type.chars()
                             .next()
                             .unwrap() 
             == '%' 
         {
-            returnStr = var_decl.var_type;
+            return_str = var_decl.var_type;
         } else {
-            returnStr = format!("[{}]", var_decl.name);
+            return_str = format!("[{}]", var_decl.name);
         }
 
         match *var_decl.value {
             Expression::Number(n) => {
-                self.output.push_str(&format!("    mov ${}, {}\n", n, &returnStr));
+                self.output.push_str(&format!("    mov ${}, {}\n", n, &return_str));
             },
 
             Expression::Identifier(ref name) => {
-                self.output.push_str(&format!("    mov %{}, {}\n", name, &returnStr));
+                self.output.push_str(&format!("    mov %{}, {}\n", name, &return_str));
             },
 
             Expression::BinaryOperation { ref left, ref operator, ref right } => {
                 // Compile the left expression
-                self.compile_expression(&*left.clone());
+                self.compile_expression(&*left);
                 self.output.push_str("    push %rax\n");
                 
                 // Compile the right expression
-                self.compile_expression(&*right.clone());
+                self.compile_expression(&*right);
                 self.output.push_str("    pop %rbx\n");
 
                 // Generate code based on the operator
