@@ -23,7 +23,7 @@ pub enum AstNode {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let args: Vec<String> = env::args().collect();
+    let args: Vec<&str> = env::args().collect();
     let input;
     
     if args.len() <= 1 {
