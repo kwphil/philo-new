@@ -150,46 +150,8 @@ impl Compiler {
         self.output.push_str(&format!(".for_{}_end:\n", for_stmt.iterator));
     }
 
-    fn compile_expression(&mut self, expr: &Expression) {
-        match expr {
-            Expression::Number(n) => {
-                self.output.push_str(&format!("    mov ${}, %rax\n", n));
-            },
-
-            Expression::Identifier(ref name) => {
-                if 
-                self.output.push_str(&format!("    mov %{}, %rax\n", name));
-            },
-
-            Expression::BinaryOperation { ref left, ref operator, ref right } => {
-                self.binary_operation(left, operator, right);
-            },
-
-            // _ => unimplemented!("Expression type not implemented"),
-        }
-    }
-
     fn binary_operation(&mut self, ref left: &Box<Expression>, ref operator: &String, ref right: &Box<Expression>) {
-        self.compile_expression(&**left);
-        self.output.push_str("    push %rax\n");
-
-        self.compile_expression(&**right);
-        self.output.push_str("    push %rbx\n");
-
-        match operator.as_str() {
-            "+" => add(left, right),
-            "-" => sub(left, right),
-            "*" => mul(left, right),
-            "/" => div(left, right),
-
-            "<" => {
-                self.output.push_str("    cmp %rbx, %rax\n");
-                self.output.push_str("    setl %al\n");
-                self.output.push_str("    movzb %al, %rax\n");
-            },
-
-            _ => unimplemented!("Operator not implemented: {}", operator),
-        }
+        self.output.push_str(binary_operation(left, operator, right));
     }
 
     pub fn output(&self) -> &str {
