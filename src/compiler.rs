@@ -52,7 +52,7 @@ impl Compiler {
     }
 
     fn compile_variable_declaration(&mut self, var_decl: VariableDeclaration) {
-        let mut returnStr;
+        let returnStr;
 
         if var_decl.var_type.chars()
                             .next()
@@ -99,7 +99,7 @@ impl Compiler {
                 self.output.push_str(&format!("    mov %rax, %{}\n", var_decl.name));
             },
 
-            _ => unimplemented!("Variable declaration type not implemented"),
+           // _ => unimplemented!("Variable declaration type not implemented"),
         }
     }
 
@@ -162,7 +162,7 @@ impl Compiler {
                 self.binary_operation(left, operator, right);
             },
 
-            _ => unimplemented!("Expression type not implemented"),
+            // _ => unimplemented!("Expression type not implemented"),
         }
     }
 
