@@ -9,6 +9,15 @@ use crate::statement::*;
 use crate::statement::Statement::*;
 use crate::compiler::Compiler;
 
+#[derive(Debug)]
+pub enum AstNode {
+    Program(Vec<Statement>),
+    FunctionDef(FunctionDef),
+    VariableDeclaration(VariableDeclaration),
+    IfStatement(IfStatement),
+    WhileStatement(WhileStatement),
+    ForStatement(ForStatement),
+}
 
 fn main() {
     // Sample input for the Philo language
