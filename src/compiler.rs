@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use crate::statement::*;
 use crate::AstNode;
 
@@ -155,6 +157,7 @@ impl Compiler {
             },
 
             Expression::Identifier(ref name) => {
+                if 
                 self.output.push_str(&format!("    mov %{}, %rax\n", name));
             },
 
@@ -174,13 +177,10 @@ impl Compiler {
         self.output.push_str("    push %rbx\n");
 
         match operator.as_str() {
-            "+" => self.output.push_str("    add %rbx, %rax\n"),
-            "-" => self.output.push_str("    sub %rbx, %rax\n"),
-            "*" => self.output.push_str("    imul %rbx, %rax\n"),
-            "/" => {
-                self.output.push_str("    cqo\n");
-                self.output.push_str("    idiv %rbx\n");
-            },
+            "+" => add(left, right),
+            "-" => sub(left, right),
+            "*" => mul(left, right),
+            "/" => div(left, right),
 
             "<" => {
                 self.output.push_str("    cmp %rbx, %rax\n");

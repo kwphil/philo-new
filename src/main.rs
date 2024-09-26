@@ -6,6 +6,7 @@ mod token;
 mod lexer;
 mod statement;
 mod compiler;
+mod encode;
 
 use crate::lexer::Lexer;
 use crate::token::Token;
