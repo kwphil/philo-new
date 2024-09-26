@@ -16,7 +16,7 @@ pub struct FunctionDef {
     pub body: Vec<Statement>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct VariableDeclaration {
     pub name: String,
     pub var_type: String,
@@ -51,7 +51,7 @@ pub struct Parameter {
     pub var_type: String,
 }
 
-#[derive(Debug, Copy)]
+#[derive(Debug)]
 pub enum Expression {
     Identifier(String),
     Number(i64),
