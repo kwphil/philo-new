@@ -56,6 +56,7 @@ fn unused_register(bits: u16) -> String {
         64 => registers64,
         32 => registers32,
         8  => registers8,
+        _  => panic!("Compiler error! incorrect bit setting!"),
     };
 
     for s in a {
@@ -68,12 +69,13 @@ fn unused_register(bits: u16) -> String {
 }
 
 pub fn expression(ref expr: &Box<Expression>) -> String {
-    match ***expr {
+    match **expr {
         Expression::Number(n) => return format!("${}", n),
-        Expression::Identifier(s) => {
+        Expression::Identifier(ref s) => {
             let v = get_variable(&s)
                         .unwrap()
-                        .var_type;
+                        .var_type
+                        .clone();
 
             if v.chars() // Checks if it is a codename
                 .next()
