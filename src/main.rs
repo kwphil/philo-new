@@ -22,7 +22,7 @@ fn main() {
     
 }
 
-#[cfg(Test)]
+#[cfg(test)]
 mod Tests {
     use super::*;
 
