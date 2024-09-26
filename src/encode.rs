@@ -58,7 +58,7 @@ fn unused_register(bits: u16) -> String {
     };
 
     for s in a {
-        if !used_reg.contains(*s) {
+        if !used_reg.contains(*s as &String) {
             return s.to_string();
         }
     }
@@ -67,7 +67,7 @@ fn unused_register(bits: u16) -> String {
 }
 
 pub fn expression(ref expr: &Box<Expression>) -> String {
-    match &**expr {
+    match **expr {
         Expression::Number(n) => return format!("${}", n),
         Expression::Identifier(s) => {
             let v = get_variable(&s)

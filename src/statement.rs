@@ -51,7 +51,7 @@ pub struct Parameter {
     pub var_type: String,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Copy)]
 pub enum Expression {
     Identifier(String),
     Number(i64),
