@@ -16,7 +16,7 @@ pub struct FunctionDef {
     pub body: Vec<Statement>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct VariableDeclaration {
     pub name: String,
     pub var_type: String,

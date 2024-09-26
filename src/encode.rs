@@ -40,13 +40,13 @@ pub fn binary_operation(ref left: &Box<Expression>, ref operator: &str, ref righ
                          movzb {}, {}\n", 
                          left_out, right_out, r, r, right_out)
         },
-        _ => unimplemented!("operation not implemented");
+        _ => unimplemented!("operation not implemented"),
     }
 }
 
-fn get_variable(s: &str) -> Result<VariableDeclaration, Box<dyn Error>> {
-    match variables.get(s) {
-        Some(v) => return Ok((*v).clone()),
+fn get_variable(s: &str) -> Result<&VariableDeclaration, Box<dyn Error>> {
+    match &variables[s] {
+        Some(v) => return Ok(*v),
         None => return Err("Variable was not found!".into()),
     }
 }
