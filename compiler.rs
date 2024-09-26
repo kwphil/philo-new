@@ -100,5 +100,85 @@ impl Compiler {
         }
     }
 
-    
+    fn compile_if_statement(&mut self, if_stmt: IfStatement) {
+        self.output.push_str("    ; If statement\n");
+
+        // Assume condition generates a label for branching
+        self.compile_expression(&*if_stmt.condition);
+        self.output.push_str("    jmp .if_end\n");
+
+        for stmt in if_stmt.then_branch {
+            self.compile_statement(stmt);
+        }
+
+        if let Some(else_branch) = if_stmt.else_branch {
+            self.output.push_str("    jmp .else_end\n");
+            self.output.push_str(".if_end:\n");
+            for stmt in else_branch {
+                self.compile_statement(stmt);
+            }
+        }
+
+        self.output.push_str(".else_end:\n");
+    }
+
+    fn compile_while_statement(&mut self, while_stmt: WhileStatement) {
+        self.output.push_str(".while_start:\n");
+        self.compile_expression(&*while_stmt.condition);
+        self.output.push_str("    jmp .while_end\n");
+
+        for stmt in while_stmt.body {
+            self.compile_statement(stmt);
+        }
+
+        self.output.push_str(".while_end:\n");
+    }
+
+    fn compile_for_statement(&mut self, for_stmt: ForStatement) {
+        self.output.push_str(&format!(".for_{}_start:\n", for_stmt.iterator));
+        self.compile_expression(&*for_stmt.range);
+
+        for stmt in for_stmt.body {
+            self.compile_statement(stmt);
+        }
+
+        self.output.push_str(&format!(".for_{}_end:\n", for_stmt.iterator));
+    }
+
+    fn compile_expression(&mut self, expr: &Expression) {
+        match expr {
+            Expression::Number(n) => {
+                self.output.push_str(&format!("    mov ${}, %rax\n", n));
+            },
+
+            Expression::Identifier(ref name) => {
+                self.output.push_str(&format!("    mov %{}, %rax\n", name));
+            },
+
+            Expression::BinaryOperation { ref left, ref operator, ref right } => {
+                self.binary_operation(left, operator, right);
+            },
+
+            _ => unimplemented!("Expression type not implemented"),
+        }
+    }
+
+    fn binary_operation(&mut self, ref left: &Box<Expression>, ref operator: &String, ref right: &Box<Expression>) {
+        self.compile_expression(&**left);
+        self.output.push_str("    push %rax\n");
+
+        self.compile_expression(&**right);
+        self.output.push_str("    push %rbx\n");
+
+        match operator.as_str() {
+            "+" => self.output.push_str("    add %rbx, %rax\n"),
+            "-" => self.output.push_str("    sub %rbx, %rax\n"),
+            "*" => self.output.push_str("    imul %rbx, %rax\n"),
+            "/" => {
+                self.output.push_str("    cqo\n");
+                self.output.push_str("    idiv %rbx\n");
+            },
+
+            
+            
 }
