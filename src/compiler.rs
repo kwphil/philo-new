@@ -1,3 +1,6 @@
+use crate::statement::*;
+use crate::AstNode;
+
 pub struct Compiler {
     output: String,
 }
@@ -90,7 +93,7 @@ impl Compiler {
                     },
 
                     // Add additional operators as needed
-                    _ => unimplemented!("Operator not implemented: {}", operator);
+                    _ => unimplemented!("Operator not implemented: {}", operator),
                 }
 
                 self.output.push_str(&format!("    mov %rax, %{}\n", var_decl.name));

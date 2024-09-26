@@ -3,6 +3,13 @@ mod lexer;
 mod statement;
 mod compiler;
 
+use crate::lexer::Lexer;
+use crate::token::Token;
+use crate::statement::*;
+use crate::statement::Statement::*;
+use crate::compiler::Compiler;
+
+
 fn main() {
     // Sample input for the Philo language
     let input = r#"
