@@ -68,14 +68,14 @@ fn unused_register(bits: u16) -> String {
     panic!("you shouldn't be here");
 }
 
-pub fn expression(ref expr: &Box<Expression>) -> String {
+pub fn expression(expr: &Box<Expression>) -> String {
     match **expr {
-        Expression::Number(n) => return format!("${}", n),
+        Expression::Number(n) => format!("${}", n),
         Expression::Identifier(ref s) => {
-            let v = get_variable(&s)
-                        .unwrap()
-                        .var_type
-                        .clone();
+            let v = get_variable(s)
+                .unwrap()
+                .var_type
+                .clone(); // Clone to avoid moving
 
             if v.chars() // Checks if it is a codename
                 .next()
