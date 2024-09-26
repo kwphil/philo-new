@@ -32,7 +32,7 @@ pub fn binary_operation(ref left: &Box<Expression>, ref operator: &str, ref righ
         "+" => format!("    add {}, {}\n", left_out, right_out),
         "-" => format!("    sub {}, {}\n", left_out, right_out),
         "*" => format!("    mul {}, {}\n", left_out, right_out),
-        "/" => format!("    cqo\n    idiv {}, {}", left_out, right_out),
+        "/" => format!("    cqo\n    idiv {}, {}\n", left_out, right_out),
         "<" => {
             let r = unused_register(8);
             format!("    cmp {}, {}\n    
@@ -45,8 +45,8 @@ pub fn binary_operation(ref left: &Box<Expression>, ref operator: &str, ref righ
 }
 
 fn get_variable(s: &str) -> Result<&VariableDeclaration, Box<dyn Error>> {
-    match &variables.get(s) {
-        Some(v) => return Ok(*v),
+    match variables.get(s) {
+        Some(v) => return Ok(v),
         None => return Err("Variable was not found!".into()),
     }
 }
