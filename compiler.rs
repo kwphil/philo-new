@@ -179,6 +179,17 @@ impl Compiler {
                 self.output.push_str("    idiv %rbx\n");
             },
 
-            
-            
+            "<" => {
+                self.output.push_str("    cmp %rbx, %rax\n");
+                self.output.push_str("    setl %al\n");
+                self.output.push_str("    movzb %al, %rax\n");
+            },
+
+            _ => unimplemented!("Operator not implemented: {}", operator),
+        }
+    }
+
+    pub fn output(&self) -> &str {
+        &self.output
+    }
 }
