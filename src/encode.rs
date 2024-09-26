@@ -7,7 +7,7 @@ use std::{
 use crate::statement::*;
 
 static variables: LazyLock<HashMap<String, VariableDeclaration>> = LazyLock::new(|| HashMap::new());
-static used_reg: LazyLock<Vec<String>> = LazyLock::new(Vec::new());
+static used_reg: LazyLock<Vec<String>> = LazyLock::new(|| Vec::new());
 
 const registers64: [&str; 18] = [
     "rax", "rbx", "rcx", "rdx", "rsi", "rdi", /* rsp and rbp won't be used */
