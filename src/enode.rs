@@ -23,7 +23,7 @@ const registers8 = vec![
     "sil", "dil", "r8b", "r9b", "r10b", "r11b", "r12b", "r13b", "r14b", "r15b"
 ];
 
-pub fn binary_operation(ref left: &Box<Expression>, ref operator: &String, &Box<Expression>) -> String {
+pub fn binary_operation(ref left: &Box<Expression>, ref operator: &String, ref right: &Box<Expression>) -> String {
     let left_out = expression(left);
     let right_out = expression(right);
     
