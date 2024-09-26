@@ -45,7 +45,7 @@ pub fn binary_operation(ref left: &Box<Expression>, ref operator: &str, ref righ
 }
 
 fn get_variable(s: &str) -> Result<&VariableDeclaration, Box<dyn Error>> {
-    match &variables[s] {
+    match &variables.get(s) {
         Some(v) => return Ok(*v),
         None => return Err("Variable was not found!".into()),
     }
@@ -59,7 +59,7 @@ fn unused_register(bits: u16) -> String {
     };
 
     for s in a {
-        if !used_reg.contains(&(**s.to_string())) {
+        if !used_reg.contains(&(*s.to_string())) {
             return s.to_string();
         }
     }
@@ -68,7 +68,7 @@ fn unused_register(bits: u16) -> String {
 }
 
 pub fn expression(ref expr: &Box<Expression>) -> String {
-    match ***expr {
+    match **expr {
         Expression::Number(n) => return format!("${}", n),
         Expression::Identifier(s) => {
             let v = get_variable(&s)
