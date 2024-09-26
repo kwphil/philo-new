@@ -35,14 +35,17 @@ pub fn binary_operation(ref left: &Box<Expression>, ref operator: &str, ref righ
         "/" => format!("    cqo\n    idiv {}, {}", left_out, right_out),
         "<" => {
             let r = unused_register(8);
-            format!("    cmp {}, {}\n    setl {}\n    movzb {}, {}\n", left_out, right_out, r, r, right_out);
+            format!("    cmp {}, {}\n    
+                         setl {}\n    
+                         movzb {}, {}\n", 
+                         left_out, right_out, r, r, right_out)
         }
     }
 }
 
 fn get_variable(s: &str) -> Result<VariableDeclaration, Box<dyn Error>> {
     match variables.get(s) {
-        Some(v) => return Ok(v),
+        Some(v) => return Ok(*v),
         None => return Err("Variable was not found!".into()),
     }
 }
@@ -55,8 +58,8 @@ fn unused_register(bits: u16) -> String {
     };
 
     for s in a {
-        if !used_reg.contains(s) {
-            return s;
+        if !used_reg.contains(*s) {
+            return s.to_string();
         }
     }
 
@@ -64,7 +67,7 @@ fn unused_register(bits: u16) -> String {
 }
 
 pub fn expression(ref expr: &Box<Expression>) -> String {
-    match &*expr {
+    match &**expr {
         Expression::Number(n) => return format!("${}", n),
         Expression::Identifier(s) => {
             let v = get_variable(&s)
@@ -81,4 +84,6 @@ pub fn expression(ref expr: &Box<Expression>) -> String {
         },
         _ => unimplemented!("Unexpected expression"),
     }
+
+    panic!("You shouldn't be here!");
 }
