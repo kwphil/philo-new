@@ -8,17 +8,17 @@ use crate::statement::*;
 static variables: HashMap<String, VariableDeclaration> = HashMap::new();
 static used_reg: Vec<String> = Vec::new();
 
-const registers64: [&str] = [
+const registers64: [&str; 14] = [
     "rax", "rbx", "rcx", "rdx", "rsi", "rdi", /* rsp and rbp won't be used */
     "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"
 ];
 
-const registers32: [&str] = [
+const registers32: [&str; 14] = [
     "eax", "ebx", "ecx", "edx", "esi", "edi",
     "r8d", "r9d", "r10d", "r11d", "r12d", "r13d", "r14d", "r15d"
 ];
 
-const registers8: [&str] = [
+const registers8: [&str; 18] = [
     "al", "ah", "bl", "bh", "ch", "cl", "dh", "dl",
     "sil", "dil", "r8b", "r9b", "r10b", "r11b", "r12b", "r13b", "r14b", "r15b"
 ];
