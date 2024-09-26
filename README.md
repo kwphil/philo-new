@@ -27,6 +27,11 @@ let x: %RAX = 5; // Accessing variables with codenames
 
 You can modify variables as needed, promoting flexibility in code.
 
+```Rust
+let mut x = 5;
+x += 5;
+```
+
 ### 4. Inline Assembly
 
 Philo allows inline assembly for low-level operations:
