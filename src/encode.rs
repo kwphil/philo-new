@@ -1,12 +1,13 @@
 use std::{
     collections::HashMap,
     error::Error,
+    std::sync::LazyLock,
 };
 
 use crate::statement::*;
 
-static variables: HashMap<String, VariableDeclaration> = HashMap::new();
-static used_reg: Vec<String> = Vec::new();
+static variables: HashMap<String, VariableDeclaration> = LazyLock::new(|| HashMap::new());
+static used_reg: Vec<String> = LazyLock::new(Vec::new());
 
 const registers64: [&str; 14] = [
     "rax", "rbx", "rcx", "rdx", "rsi", "rdi", /* rsp and rbp won't be used */
