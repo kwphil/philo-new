@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use crate::statement::*;
+use crate::encode::*;
 use crate::AstNode;
 
 pub struct Compiler {
@@ -148,10 +149,6 @@ impl Compiler {
         }
 
         self.output.push_str(&format!(".for_{}_end:\n", for_stmt.iterator));
-    }
-
-    fn binary_operation(&mut self, ref left: &Box<Expression>, ref operator: &String, ref right: &Box<Expression>) {
-        self.output.push_str(binary_operation(left, operator, right));
     }
 
     pub fn output(&self) -> &str {

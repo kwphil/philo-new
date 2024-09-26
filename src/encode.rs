@@ -5,20 +5,20 @@ use std::{
 
 use crate::statement::*;
 
-static variables = HashMap::<String, VariableDeclaration>::new();
-static used_reg = Vec::<String>::new();
+static variables: HashMap<String, VariableDeclaration> = HashMap::new();
+static used_reg: Vec<String> = Vec::new();
 
-const registers64 = vec![
+const registers64: Vec<&str> = vec![
     "rax", "rbx", "rcx", "rdx", "rsi", "rdi", /* rsp and rbp won't be used */
     "r8", "r9", "r10", "r11", "r12", "r13", "r14", "r15"
 ];
 
-const registers32 = vec![
+const registers32: Vec<&str> = vec![
     "eax", "ebx", "ecx", "edx", "esi", "edi",
     "r8d", "r9d", "r10d", "r11d", "r12d", "r13d", "r14d", "r15d"
 ];
 
-const registers8 = vec![
+const registers8: Vec<&str> = vec![
     "al", "ah", "bl", "bh", "ch", "cl", "dh", "dl",
     "sil", "dil", "r8b", "r9b", "r10b", "r11b", "r12b", "r13b", "r14b", "r15b"
 ];
@@ -51,7 +51,7 @@ fn unused_register(bits: u16) -> String {
         64 => registers64,
         32 => registers32,
         8  => registers8,
-    }
+    };
 
     for s in a {
         if !used_reg.contains(s) {
@@ -68,7 +68,7 @@ pub fn expression(ref expr: &Box<Expression>) -> String {
         Expression::Identifier(s) => {
             let v = get_variable(&s)
                         .unwrap()
-                        .var_type
+                        .var_type;
 
             if v.chars() // Checks if it is a codename
                 .next()
