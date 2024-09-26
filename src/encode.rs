@@ -70,7 +70,7 @@ fn unused_register(bits: u16) -> String {
 
 pub fn expression(expr: &Box<Expression>) -> String {
     match **expr {
-        Expression::Number(n) => format!("${}", n),
+        Expression::Number(n) => return format!("${}", n),
         Expression::Identifier(ref s) => {
             let v = get_variable(s)
                 .unwrap()
