@@ -23,14 +23,14 @@ pub enum AstNode {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let args: Vec<&str> = env::args().collect();
+    let args: Vec<String> = env::args().collect();
     let input;
     
     if args.len() <= 1 {
         return Err("No file was attached!".into());
     }
 
-    input = read_to_string(args[1]).expect("Could not read input!");
+    input = read_to_string(args[1].clone()).expect("Could not read input!");
     
     // Step 1: Tokenize the input
     let mut lexer = Lexer::new(&input);
